@@ -99,6 +99,53 @@
 html,
 body {
 	min-height: unset;
+
+	--color-facebook: rgb(59, 89, 152);
+
+	--color-primary-50: #e6eaf0;
+	--color-primary-100: #c2ccd9;
+	--color-primary-200: #9baec2;
+	--color-primary-300: #7490ab;
+	--color-primary-400: #52789a;
+	--color-primary-500: #142f43;
+	--color-primary-600: #11283a;
+	--color-primary-700: #0e2131;
+	--color-primary-800: #0b1a28;
+	--color-primary-900: #08131f;
+	--color-primary-950: #04090e;
+
+	--color-success-50: #e6f9ee;
+	--color-success-100: #c8f1d7;
+	--color-success-200: #a3e9be;
+	--color-success-300: #7ee1a5;
+	--color-success-400: #5ed98f;
+	--color-success-500: #23ce6b;
+	--color-success-600: #1fb95f;
+	--color-success-700: #1a9b50;
+	--color-success-800: #157c41;
+	--color-success-900: #105f33;
+	--color-success-950: #08361b;
+
+	--color-danger-50: #ffeaea;
+	--color-danger-100: #ffc5c5;
+	--color-danger-200: #ff9e9e;
+	--color-danger-300: #ff7676;
+	--color-danger-400: #ff5252;
+	--color-danger-500: #ff0000;
+	--color-danger-600: #e60000;
+	--color-danger-700: #b80000;
+	--color-danger-800: #8a0000;
+	--color-danger-900: #5c0000;
+	--color-danger-950: #2e0000;
+
+	--color-instagram: linear-gradient(
+		45deg,
+		rgb(240, 148, 51) 0%,
+		rgb(230, 104, 60) 25%,
+		rgb(220, 39, 67) 50%,
+		rgb(204, 35, 102) 75%,
+		rgb(188, 24, 136) 100%
+	);
 }
 
 .bg-overlay-gradient-black {
