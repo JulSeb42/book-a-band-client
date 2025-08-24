@@ -10,7 +10,14 @@
 		"test": "vitest run",
 		"lint": "eslint",
 		"format": "prettier",
-		"check": "prettier --write . && eslint --fix"
+		"check": "prettier --write . && eslint --fix",
+		"plop": "cross-env NODE_OPTIONS='--import tsx' plop --plopfile=plop/plopfile.ts",
+		"plop:g": "pnpm plop generator",
+		"plop:c": "pnpm plop component",
+		"plop:sc": "pnpm plop single-component",
+		"plop:p": "pnpm plop page",
+		"plop:co": "pnpm plop context",
+		"plop:t": "pnpm plop type"
 	},
 	"dependencies": {
 		"@cloudinary/react": "^1.14.3",

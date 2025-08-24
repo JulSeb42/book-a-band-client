@@ -9,7 +9,7 @@ export const ProtectedRoute: FC<IProtectedRoute> = ({ children }) => {
 
 	if (isLoggedIn) return children
 
-	return <Navigate to="/" />
+	return <Navigate to="/login" />
 }
 
 interface IProtectedRoute {

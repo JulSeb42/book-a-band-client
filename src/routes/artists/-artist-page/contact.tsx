@@ -19,9 +19,7 @@ export const ContactArtist: FC<IContactArtist> = ({ artist }) => {
 	const [isLoading, setIsLoading] = useState(true)
 	const [errorMessage, setErrorMessage] = useState<IErrorMessage>(undefined)
 
-	const [message, setMessage] = useState(
-		"Hello, I'm organising a party on the 17th of September 2025, do you have availabilities?",
-	)
+	const [message, setMessage] = useState("")
 	const [validation, setValidation] = useState<LibValidationStatus>(undefined)
 
 	useEffect(() => {

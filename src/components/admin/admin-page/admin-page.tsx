@@ -1,6 +1,7 @@
 import { clsx, Meta, PageLoading, Main } from "@julseb-lib/react"
 import { AdminNav } from "../admin-nav"
 import type { IAdminPage } from "./types"
+import { SITE_DATA } from "data"
 
 export const AdminPage: FC<IAdminPage> = ({
 	title,
@@ -10,7 +11,10 @@ export const AdminPage: FC<IAdminPage> = ({
 }) => {
 	return (
 		<>
-			<Meta title={title} />
+			<Meta
+				title={`${title} | ${SITE_DATA.NAME}`}
+				favicon={SITE_DATA.FAVICON}
+			/>
 
 			{isLoading ? (
 				<PageLoading />

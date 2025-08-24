@@ -16,6 +16,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as ConversationIdRouteImport } from './routes/conversation/$id'
 import { Route as ArtistsArtistRouteImport } from './routes/artists/$artist'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
+import { Route as AdminArtistsRouteImport } from './routes/admin/artists'
 import { Route as authThankYouRouteImport } from './routes/(auth)/thank-you'
 import { Route as authSignupRouteImport } from './routes/(auth)/signup'
 import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-password'
@@ -62,6 +63,11 @@ const ArtistsArtistRoute = ArtistsArtistRouteImport.update({
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/admin/users',
   path: '/admin/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminArtistsRoute = AdminArtistsRouteImport.update({
+  id: '/admin/artists',
+  path: '/admin/artists',
   getParentRoute: () => rootRouteImport,
 } as any)
 const authThankYouRoute = authThankYouRouteImport.update({
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof authResetPasswordRoute
   '/signup': typeof authSignupRoute
   '/thank-you': typeof authThankYouRoute
+  '/admin/artists': typeof AdminArtistsRoute
   '/admin/users': typeof AdminUsersRoute
   '/artists/$artist': typeof ArtistsArtistRoute
   '/conversation/$id': typeof ConversationIdRoute
@@ -157,6 +164,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof authResetPasswordRoute
   '/signup': typeof authSignupRoute
   '/thank-you': typeof authThankYouRoute
+  '/admin/artists': typeof AdminArtistsRoute
   '/admin/users': typeof AdminUsersRoute
   '/artists/$artist': typeof ArtistsArtistRoute
   '/conversation/$id': typeof ConversationIdRoute
@@ -179,6 +187,7 @@ export interface FileRoutesById {
   '/(auth)/reset-password': typeof authResetPasswordRoute
   '/(auth)/signup': typeof authSignupRoute
   '/(auth)/thank-you': typeof authThankYouRoute
+  '/admin/artists': typeof AdminArtistsRoute
   '/admin/users': typeof AdminUsersRoute
   '/artists/$artist': typeof ArtistsArtistRoute
   '/conversation/$id': typeof ConversationIdRoute
@@ -202,6 +211,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/thank-you'
+    | '/admin/artists'
     | '/admin/users'
     | '/artists/$artist'
     | '/conversation/$id'
@@ -223,6 +233,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/thank-you'
+    | '/admin/artists'
     | '/admin/users'
     | '/artists/$artist'
     | '/conversation/$id'
@@ -244,6 +255,7 @@ export interface FileRouteTypes {
     | '/(auth)/reset-password'
     | '/(auth)/signup'
     | '/(auth)/thank-you'
+    | '/admin/artists'
     | '/admin/users'
     | '/artists/$artist'
     | '/conversation/$id'
@@ -266,6 +278,7 @@ export interface RootRouteChildren {
   authResetPasswordRoute: typeof authResetPasswordRoute
   authSignupRoute: typeof authSignupRoute
   authThankYouRoute: typeof authThankYouRoute
+  AdminArtistsRoute: typeof AdminArtistsRoute
   AdminUsersRoute: typeof AdminUsersRoute
   ArtistsArtistRoute: typeof ArtistsArtistRoute
   ConversationIdRoute: typeof ConversationIdRoute
@@ -329,6 +342,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/users'
       fullPath: '/admin/users'
       preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/artists': {
+      id: '/admin/artists'
+      path: '/admin/artists'
+      fullPath: '/admin/artists'
+      preLoaderRoute: typeof AdminArtistsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(auth)/thank-you': {
@@ -426,6 +446,7 @@ const rootRouteChildren: RootRouteChildren = {
   authResetPasswordRoute: authResetPasswordRoute,
   authSignupRoute: authSignupRoute,
   authThankYouRoute: authThankYouRoute,
+  AdminArtistsRoute: AdminArtistsRoute,
   AdminUsersRoute: AdminUsersRoute,
   ArtistsArtistRoute: ArtistsArtistRoute,
   ConversationIdRoute: ConversationIdRoute,

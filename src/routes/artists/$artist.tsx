@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { useQuery } from "@tanstack/react-query"
 import {
 	PageLoading,
@@ -11,6 +11,7 @@ import {
 import { Page } from "components"
 import { userService } from "api"
 import { ErrorPage } from "pages"
+import { useAuth } from "context"
 import {
 	UserAvatar,
 	UserInfo,
@@ -19,7 +20,10 @@ import {
 } from "./-artist-page"
 
 const Artist: FC = () => {
+	const navigate = useNavigate()
+
 	const { artist: slug } = Route.useParams()
+	const { isLoggedIn, user } = useAuth()
 
 	const {
 		data: artist,
@@ -34,6 +38,15 @@ const Artist: FC = () => {
 	if (isPending) return <PageLoading />
 
 	if (isError) return <ErrorPage message={error.message} />
+
+	setTimeout(() => {
+		if (
+			artist.approved === false &&
+			(!isLoggedIn ||
+				(user?.role !== "admin" && user?._id !== artist._id))
+		)
+			navigate({ to: "/artists" })
+	}, 1000)
 
 	return (
 		<Page

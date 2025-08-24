@@ -110,6 +110,8 @@ export const UserCardAdmin: FC<IUserCardAdmin> = ({ user }) => {
 							src={currentUser.avatar}
 							alt={`Avatar ${currentUser.fullName}`}
 							borderRadius="xl"
+							className="size-full"
+							fit="cover"
 						/>
 					) : (
 						<span>{getInitials(currentUser.fullName)}</span>

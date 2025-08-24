@@ -1,4 +1,4 @@
-export const CLIENT_PATH = "../client/src"
+export const CLIENT_PATH = "../src"
 export const SERVER_PATH = "../server/src"
 export const SHARED_PATH = "../shared"
 export const TEMPLATES_PATH = "./templates"

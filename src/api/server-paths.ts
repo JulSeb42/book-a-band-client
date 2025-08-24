@@ -24,6 +24,7 @@ export const SERVER_PATHS = {
 	USERS: {
 		ROOT: SERVER_PATH_ROOTS.USERS,
 		ALL_USERS: "/all-users",
+		ALL_OTHER_USERS: "/all-other-users",
 		ALL_ARTISTS: "/artists",
 		GET_USER: (id = ":id") => `/user/${id}`,
 		ARTIST_BY_SLUG: (slug = ":slug") => `/artist/${slug}`,
@@ -36,6 +37,7 @@ export const SERVER_PATHS = {
 	},
 	ADMIN: {
 		ROOT: SERVER_PATH_ROOTS.ADMIN,
+		APPROVE_ARTIST: (id = ":id") => `/approve-artist/${id}`,
 		EDIT_ROLE: (id = ":id") => `/edit-role/${id}`,
 		RESET_PASSWORD: (id = ":id") => `/reset-password/${id}`,
 		DELETE_USER: (id = ":id") => `/delete-user/${id}`,

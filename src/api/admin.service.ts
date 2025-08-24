@@ -14,6 +14,12 @@ class AdminService {
 		data: { role: UserRole },
 	): ApiResponse<User> => await http.put(generateRoute("EDIT_ROLE", id), data)
 
+	approveArtist = async (
+		id: string,
+		data: { approved: boolean },
+	): ApiResponse<User> =>
+		await http.put(generateRoute("APPROVE_ARTIST", id), data)
+
 	resetPassword = async (id: string): ApiResponse<{ message: string }> =>
 		await http.post(generateRoute("RESET_PASSWORD", id))
 

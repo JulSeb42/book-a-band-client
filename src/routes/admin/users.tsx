@@ -16,7 +16,7 @@ const Users: FC = () => {
 		isPending,
 	} = useQuery({
 		queryKey: ["users", page],
-		queryFn: () => userService.allUsers().then(res => res.data),
+		queryFn: () => userService.allOtherUsers().then(res => res.data),
 	})
 
 	const [search, setSearch] = useState({ search: "", role: "none" })

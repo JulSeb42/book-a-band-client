@@ -1,4 +1,10 @@
-import { BiLayout, BiLinkExternal, BiUser, BiUserCircle } from "react-icons/bi"
+import {
+	BiLayout,
+	BiLinkExternal,
+	BiMusic,
+	BiUser,
+	BiUserCircle,
+} from "react-icons/bi"
 import type { LinkType } from "types"
 import type { FileRouteTypes } from "routeTree.gen"
 
@@ -39,6 +45,7 @@ type AdminNavLink = Omit<NavLink, "type"> & {
 
 export const adminNavLinks: Array<AdminNavLink> = [
 	{ text: "Admin", to: "/admin", icon: <BiLayout /> },
+	{ text: "Artists", to: "/admin/artists", icon: <BiMusic /> },
 	{ text: "Users", to: "/admin/users", icon: <BiUser /> },
 ]
 

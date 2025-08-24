@@ -26,6 +26,9 @@ class UserService {
 	allArtists = async (approved?: boolean): ApiResponse<Array<User>> =>
 		await http.get(generateRoute("ALL_ARTISTS") + `?approved=${approved}`)
 
+	allOtherUsers = async (): ApiResponse<Array<User>> =>
+		await http.get(generateRoute("ALL_OTHER_USERS"))
+
 	allCities = async (): ApiResponse<Array<string>> =>
 		await http.get(generateRoute("GET_ALL_CITIES"))
 

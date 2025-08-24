@@ -9,4 +9,5 @@ export * from "./pagination"
 export * from "./input-skeleton"
 export * from "./conversation-card"
 export * from "./chat"
+export * from "./admin/artist-card-admin"
 /* Prepend export - DO NOT REMOVE */

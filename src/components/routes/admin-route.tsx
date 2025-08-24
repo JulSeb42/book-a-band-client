@@ -9,7 +9,7 @@ export const AdminRoute: FC<IAdminRoute> = ({ children }) => {
 
 	if (isLoggedIn && user?.role === "admin") return children
 
-	return <Navigate to="/" />
+	return <Navigate to="/my-account" />
 }
 
 interface IAdminRoute {

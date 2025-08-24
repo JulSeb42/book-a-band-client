@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { Text } from "@julseb-lib/react"
-import { Page } from "components"
+import { AdminPage } from "components"
 
 const Admin{{>pascalName}}: FC = () => {
 	return (
-		<Page title="{{ title }}" type="{{ type }}">
+		<AdminPage title="{{ title }}">
 			<Text tag="h1">{{ title }}</Text>
-        </Page>
+        </AdminPage>
 	)
 }
 

@@ -9,7 +9,7 @@ export const AnonRoute: FC<IAnonRoute> = ({ children }) => {
 
 	if (!isLoggedIn) return children
 
-	return <Navigate to="/" />
+	return <Navigate to="/my-account" />
 }
 
 interface IAnonRoute {

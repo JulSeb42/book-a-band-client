@@ -9,6 +9,8 @@ const Admin: FC = () => {
 	return (
 		<AdminPage title="Admin">
 			<Text tag="h1">Hello {user?.fullName}</Text>
+
+			{/* Messages */}
 		</AdminPage>
 	)
 }
