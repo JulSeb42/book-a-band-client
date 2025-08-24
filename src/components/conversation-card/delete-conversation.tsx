@@ -25,7 +25,7 @@ export const DeleteConversation: FC<IDeleteConversation> = ({
 			.then(res => {
 				toast.success(res.data.message)
 				setConversations(prev =>
-					prev.filter(c => c._id !== conversationId),
+					prev.filter(c => c._id !== res.data._id),
 				)
 			})
 			.catch(err => {

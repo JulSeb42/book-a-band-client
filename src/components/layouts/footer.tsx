@@ -1,4 +1,5 @@
-import { Link } from "@tanstack/react-router"
+import { useState, useEffect } from "react"
+import { Link, useNavigate } from "@tanstack/react-router"
 import { useQuery } from "@tanstack/react-query"
 import {
 	BiChevronRight,
@@ -7,9 +8,15 @@ import {
 } from "react-icons/bi"
 import { Section, Text, Skeleton, Flexbox, clsx } from "@julseb-lib/react"
 import { SITE_DATA } from "data"
-import { userService } from "api"
+import { userService, conversationService } from "api"
+import { useAuth } from "context"
+import type { Conversation } from "types"
 
 export const Footer: FC = () => {
+	const navigate = useNavigate()
+
+	const { isLoggedIn, user } = useAuth()
+
 	const {
 		data: cities,
 		isError,
@@ -19,11 +26,71 @@ export const Footer: FC = () => {
 		queryKey: ["cities"],
 		queryFn: () => userService.allCities().then(res => res.data),
 	})
+	const { data: admins } = useQuery({
+		queryKey: ["admins"],
+		queryFn: () => userService.allAdmins().then(res => res.data),
+	})
+
+	const [existingConversation, setExistingConversation] =
+		useState<Conversation | null>()
+
+	useEffect(() => {
+		if (isLoggedIn && user && admins) {
+			conversationService.getUserConversations(user?._id!).then(res => {
+				const conversations = res.data
+				const admin = admins[0]
+
+				const conversation = conversations.find(
+					c =>
+						(c.user1._id === admin._id &&
+							c.user2._id === user._id) ||
+						(c.user1._id === user._id && c.user2._id === admin._id),
+				)
+
+				if (conversation) setExistingConversation(conversation)
+				else setExistingConversation(null)
+			})
+		} else {
+			setExistingConversation(null)
+		}
+	}, [])
+
+	const handleNewConversation = () => {
+		conversationService
+			.newConversation({
+				user1: user!._id,
+				user2: admins![0]._id,
+				body: "",
+			})
+			.then(res => {
+				setTimeout(
+					() =>
+						navigate({
+							to: "/conversation/$id",
+							params: { id: res.data._id },
+						}),
+					200,
+				)
+			})
+	}
+
+	const text = "by clicking here."
+
+	const textContact = existingConversation ? (
+		<Link to="/conversation/$id" params={{ id: existingConversation._id }}>
+			{text}
+		</Link>
+	) : (
+		<button className="inline text-left" onClick={handleNewConversation}>
+			{text}
+		</button>
+	)
 
 	return (
 		<footer
 			className={clsx(
-				"gap-2 grid grid-cols-3 bg-gray-200 px-[5%] py-6",
+				"gap-2 grid bg-gray-200 px-[5%] py-6",
+				isLoggedIn ? "grid-cols-4" : "grid-cols-3",
 				"footer",
 			)}
 		>
@@ -81,6 +148,17 @@ export const Footer: FC = () => {
 					</a>
 				</Flexbox>
 			</Section>
+
+			{isLoggedIn && (
+				<Section gap="xs">
+					<Text tag="h3">Contact an admin</Text>
+
+					<Text>
+						If you need to talk to us, you can contact directly an
+						admin {textContact}
+					</Text>
+				</Section>
+			)}
 
 			<Section gap="xs">
 				<Text tag="h3">Disclaimer</Text>

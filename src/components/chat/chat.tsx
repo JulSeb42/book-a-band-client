@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react"
 import { io } from "socket.io-client"
 import { BiSend } from "react-icons/bi"
 import {
+	Text,
 	Hr,
 	ButtonIcon,
 	clsx,
@@ -27,6 +28,7 @@ export const Chat: FC<IChat> = ({ conversation, isLoading, errorMessage }) => {
 	)
 	const [input, setInput] = useState("")
 	const [isFormLoading, setIsFormLoading] = useState(false)
+
 	const containerRef = useRef<HTMLDivElement>(null)
 	const endRef = useRef<HTMLSpanElement>(null)
 
@@ -88,6 +90,10 @@ export const Chat: FC<IChat> = ({ conversation, isLoading, errorMessage }) => {
 
 	if (errorMessage) return <ErrorMessage>{errorMessage}</ErrorMessage>
 
+	const allMessages = deleteDuplicates(messages).filter(
+		msg => msg.body !== "",
+	)
+
 	return (
 		<div
 			className={clsx(
@@ -97,7 +103,10 @@ export const Chat: FC<IChat> = ({ conversation, isLoading, errorMessage }) => {
 		>
 			<div
 				ref={containerRef}
-				className="flex flex-col gap-2 p-4 h-[60vh] overflow-y-auto"
+				className={clsx(
+					"flex flex-col gap-2 p-4 h-[60vh] overflow-y-auto",
+					!allMessages.length && "justify-center items-center",
+				)}
 			>
 				{isLoading ? (
 					<>
@@ -107,9 +116,13 @@ export const Chat: FC<IChat> = ({ conversation, isLoading, errorMessage }) => {
 					</>
 				) : (
 					<>
-						{deleteDuplicates(messages).map(msg => (
-							<Message message={msg} key={msg._id} />
-						))}
+						{allMessages.length ? (
+							allMessages.map(msg => (
+								<Message message={msg} key={msg._id} />
+							))
+						) : (
+							<Text>No message yet.</Text>
+						)}
 						<span ref={endRef} />{" "}
 					</>
 				)}

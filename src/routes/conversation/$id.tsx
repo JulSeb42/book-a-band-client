@@ -1,29 +1,27 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { createFileRoute } from "@tanstack/react-router"
+import { useQuery } from "@tanstack/react-query"
 import { Text, toast } from "@julseb-lib/react"
 import { Page, Chat } from "components"
 import { useAuth } from "context"
 import { conversationService } from "api"
-import type { Conversation, IErrorMessage } from "types"
+import type { Conversation } from "types"
 
 const Conversation: FC = () => {
 	const { id } = Route.useParams()
 
 	const { user } = useAuth()
 
-	const [conversation, setConversation] = useState<Conversation>()
-	const [isLoading, setIsLoading] = useState(true)
-	const [errorMessage, setErrorMessage] = useState<IErrorMessage>(undefined)
-
-	useEffect(() => {
-		if (isLoading) {
-			conversationService
-				.getConversation(id)
-				.then(res => setConversation(res.data))
-				.catch(err => setErrorMessage(err.response.data.message))
-				.finally(() => setIsLoading(false))
-		}
-	}, [isLoading])
+	const {
+		data: conversation,
+		isPending,
+		error,
+		refetch,
+	} = useQuery({
+		queryKey: ["conversation"],
+		queryFn: () =>
+			conversationService.getConversation(id).then(res => res.data),
+	})
 
 	useEffect(() => {
 		if (
@@ -34,7 +32,7 @@ const Conversation: FC = () => {
 				.readConversation(conversation._id, {
 					readUser1: true,
 				})
-				.then(res => setConversation(res.data))
+				.then(() => refetch())
 				.catch(err => {
 					toast.error(
 						"An error occurred while reading the conversation, check console",
@@ -51,7 +49,7 @@ const Conversation: FC = () => {
 				.readConversation(conversation._id, {
 					readUser2: true,
 				})
-				.then(res => setConversation(res.data))
+				.then(() => refetch())
 				.catch(err => {
 					toast.error(
 						"An error occurred while reading the conversation, check console",
@@ -76,8 +74,8 @@ const Conversation: FC = () => {
 
 					<Chat
 						conversation={conversation!}
-						isLoading={isLoading}
-						errorMessage={errorMessage}
+						isLoading={isPending}
+						errorMessage={error?.message}
 					/>
 				</>
 			) : (

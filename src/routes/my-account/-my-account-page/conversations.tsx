@@ -30,7 +30,7 @@ export const UserConversations: FC<IUserConversations> = ({
 				.catch(err => setErrorMessage(err.response.data.message))
 				.finally(() => setIsLoading(false))
 		}
-	}, [isLoading])
+	}, [isLoading, userConversations])
 
 	let filteredConversations = userConversations
 
