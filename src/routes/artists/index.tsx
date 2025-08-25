@@ -159,7 +159,6 @@ const Artists: FC = () => {
 				<SrOnly element="h1">{SITE_DATA.NAME}'s Artists</SrOnly>
 
 				<ArtistsList
-					artists={data as any}
 					paginatedData={paginatedData}
 					isError={isError || isPricesError}
 					error={error?.message || pricesError?.message}

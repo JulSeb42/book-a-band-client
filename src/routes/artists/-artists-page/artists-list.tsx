@@ -35,7 +35,6 @@ export const ArtistsList: FC<IArtistsList> = ({
 }
 
 interface IArtistsList {
-	artists: Array<User>
 	paginatedData: Array<User>
 	isError: boolean
 	error: string | undefined
