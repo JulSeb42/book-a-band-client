@@ -65,6 +65,7 @@ const Users: FC = () => {
 				>
 					<option value="none">None</option>
 					<option value="user">User</option>
+					<option value="artist">Artist</option>
 					<option value="admin">Admin</option>
 				</Input>
 			</Grid>

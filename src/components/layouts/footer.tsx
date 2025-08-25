@@ -149,7 +149,7 @@ export const Footer: FC = () => {
 				</Flexbox>
 			</Section>
 
-			{isLoggedIn && (
+			{isLoggedIn && user?.role !== "admin" && (
 				<Section gap="xs">
 					<Text tag="h3">Contact an admin</Text>
 
