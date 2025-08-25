@@ -16,7 +16,7 @@ import type { IConversationCard } from "./types"
 
 export const ConversationCard: FC<IConversationCard> = ({
 	conversation,
-	setConversations,
+	refetch,
 }) => {
 	const { user } = useAuth()
 
@@ -26,6 +26,8 @@ export const ConversationCard: FC<IConversationCard> = ({
 			: conversation.user1
 
 	const lastMessage = conversation.messages[conversation.messages.length - 1]
+	const lastSender =
+		lastMessage.sender._id === user?._id ? "You" : otherUser.fullName
 
 	const date =
 		formatDate(new Date(lastMessage.date)) === formatDate(new Date())
@@ -76,6 +78,7 @@ export const ConversationCard: FC<IConversationCard> = ({
 						) : null}
 					</Text>
 					<Text className="text-ellipsis line-clamp-1">
+						<Text tag="strong">{lastSender}: </Text>
 						{lastMessage.body}
 					</Text>
 					<Text tag="small" color="gray" className="italic">
@@ -87,7 +90,7 @@ export const ConversationCard: FC<IConversationCard> = ({
 			<DeleteConversation
 				user={otherUser}
 				conversationId={conversation._id}
-				setConversations={setConversations}
+				refetch={refetch}
 			/>
 		</div>
 	)

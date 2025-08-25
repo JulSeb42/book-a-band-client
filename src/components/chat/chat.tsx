@@ -20,7 +20,12 @@ import type { IChat } from "./types"
 
 const socket = io(import.meta.env.VITE_API_URL)
 
-export const Chat: FC<IChat> = ({ conversation, isLoading, errorMessage }) => {
+export const Chat: FC<IChat> = ({
+	conversation,
+	isLoading,
+	errorMessage,
+	refetch,
+}) => {
 	const { user } = useAuth()
 
 	const [messages, setMessages] = useState<Array<MessageType>>(
@@ -37,6 +42,7 @@ export const Chat: FC<IChat> = ({ conversation, isLoading, errorMessage }) => {
 			setMessages(prev =>
 				prev.some(m => m._id === msg._id) ? prev : [...prev, msg],
 			)
+			refetch()
 		})
 
 		return () => {
@@ -80,7 +86,7 @@ export const Chat: FC<IChat> = ({ conversation, isLoading, errorMessage }) => {
 						time: getTimeNow(),
 					})
 					setMessages([...messages])
-
+					refetch()
 					setIsFormLoading(false)
 				}, 200)
 

@@ -10,7 +10,7 @@ import {
 } from "@julseb-lib/react"
 import { Page } from "components"
 import { userService } from "api"
-import { ErrorPage } from "pages"
+import { ErrorPage, NotFoundPage } from "pages"
 import { useAuth } from "context"
 import {
 	UserAvatar,
@@ -47,6 +47,8 @@ const Artist: FC = () => {
 		)
 			navigate({ to: "/artists" })
 	}, 1000)
+
+	if (!artist) return <NotFoundPage />
 
 	return (
 		<Page

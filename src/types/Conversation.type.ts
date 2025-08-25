@@ -8,6 +8,14 @@ export type Message = {
 	sender: User
 }
 
+export type ChatMessage = {
+	body: string
+	conversationId: string
+	date: string
+	sender: User
+	time: string
+}
+
 export type Conversation = {
 	_id: string
 	user1: User

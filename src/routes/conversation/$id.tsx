@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 import { Text, toast } from "@julseb-lib/react"
 import { Page, Chat } from "components"
 import { useAuth } from "context"
+import { NotFoundPage } from "pages"
 import { conversationService } from "api"
 import type { Conversation } from "types"
 
@@ -64,26 +65,18 @@ const Conversation: FC = () => {
 			? conversation?.user2
 			: conversation?.user1
 
+	if (!conversation) return <NotFoundPage />
+
 	return (
 		<Page title="Conversation" type="protected">
-			{conversation ? (
-				<>
-					<Text tag="h1">
-						Conversation with {otherUser?.fullName}
-					</Text>
+			<Text tag="h1">Conversation with {otherUser?.fullName}</Text>
 
-					<Chat
-						conversation={conversation!}
-						isLoading={isPending}
-						errorMessage={error?.message}
-					/>
-				</>
-			) : (
-				<>
-					<Text tag="h1">Error</Text>
-					<Text>No conversation has been found.</Text>
-				</>
-			)}
+			<Chat
+				conversation={conversation!}
+				isLoading={isPending}
+				errorMessage={error?.message}
+				refetch={refetch}
+			/>
 		</Page>
 	)
 }

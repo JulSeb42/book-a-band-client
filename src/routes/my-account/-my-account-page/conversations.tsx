@@ -1,14 +1,17 @@
-import { useState, useEffect, Fragment } from "react"
+import { Fragment, useEffect } from "react"
+import { io } from "socket.io-client"
+import { useQuery } from "@tanstack/react-query"
 import { Section, Text, Hr, slugify } from "@julseb-lib/react"
 import {
 	ConversationCard,
 	ConversationCardSkeleton,
 	ErrorMessage,
 } from "components"
-import { conversationService } from "api"
 import { useAuth } from "context"
-import type { Conversation, IErrorMessage } from "types"
 import type { ReadFilter } from ".."
+import { conversationService } from "api"
+
+const socket = io(import.meta.env.VITE_API_URL)
 
 export const UserConversations: FC<IUserConversations> = ({
 	search,
@@ -16,25 +19,23 @@ export const UserConversations: FC<IUserConversations> = ({
 }) => {
 	const { user } = useAuth()
 
-	const [userConversations, setUserConversations] = useState<
-		Array<Conversation>
-	>([])
-	const [isLoading, setIsLoading] = useState(true)
-	const [errorMessage, setErrorMessage] = useState<IErrorMessage>(undefined)
-
-	useEffect(() => {
-		if (isLoading) {
+	const {
+		data: conversations,
+		isError,
+		error,
+		isPending,
+		refetch,
+	} = useQuery({
+		queryKey: ["conversations"],
+		queryFn: () =>
 			conversationService
-				.getUserConversations(user?._id!)
-				.then(res => setUserConversations(res.data))
-				.catch(err => setErrorMessage(err.response.data.message))
-				.finally(() => setIsLoading(false))
-		}
-	}, [isLoading, userConversations])
+				.getUserConversations(user!._id)
+				.then(res => res.data),
+	})
 
-	let filteredConversations = userConversations
+	let filteredConversations = conversations
 
-	if (search) {
+	if (search && filteredConversations?.length) {
 		filteredConversations = filteredConversations.filter(c => {
 			if (user?._id === c.user1._id) {
 				return slugify(c.user2.fullName).includes(slugify(search))
@@ -44,7 +45,7 @@ export const UserConversations: FC<IUserConversations> = ({
 		})
 	}
 
-	if (filter !== "All") {
+	if (filter !== "All" && filteredConversations?.length) {
 		filteredConversations = filteredConversations.filter(c => {
 			if (filter === "Unread") {
 				if (user?._id === c.user1._id) {
@@ -62,7 +63,16 @@ export const UserConversations: FC<IUserConversations> = ({
 		})
 	}
 
-	if (isLoading)
+	useEffect(() => {
+		socket.on("chat message", () => {
+			refetch()
+		})
+		return () => {
+			socket.off("chat message")
+		}
+	}, [refetch])
+
+	if (isPending)
 		return (
 			<>
 				<ConversationCardSkeleton />
@@ -78,23 +88,25 @@ export const UserConversations: FC<IUserConversations> = ({
 			</>
 		)
 
-	if (errorMessage) return <ErrorMessage>{errorMessage}</ErrorMessage>
+	if (isError) return <ErrorMessage>{error.message}</ErrorMessage>
 
 	return (
 		<Section>
 			<Text tag="h3">Conversations</Text>
 
-			{userConversations && userConversations.length ? (
-				filteredConversations.length ? (
+			{conversations && conversations.length ? (
+				filteredConversations?.length ? (
 					filteredConversations.map((conversation, i) => {
 						return (
 							<Fragment key={conversation._id}>
 								<ConversationCard
 									conversation={conversation}
-									setConversations={setUserConversations}
+									refetch={refetch}
 								/>
 
-								{i !== userConversations.length - 1 && <Hr />}
+								{i !== filteredConversations.length - 1 && (
+									<Hr />
+								)}
 							</Fragment>
 						)
 					})

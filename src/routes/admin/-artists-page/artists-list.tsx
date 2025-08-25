@@ -1,6 +1,11 @@
 import { useState, useEffect, Fragment } from "react"
 import { Hr, Text, usePaginatedData, slugify } from "@julseb-lib/react"
-import { ErrorMessage, ArtistCardAdmin, Pagination } from "components"
+import {
+	ErrorMessage,
+	ArtistCardAdmin,
+	Pagination,
+	ArtistCardAdminSkeleton,
+} from "components"
 import { userService } from "api"
 import type { Filter } from "../artists"
 import type { IErrorMessage, User } from "types"
@@ -44,7 +49,20 @@ export const ArtistsList: FC<IArtistsList> = ({ page, inputs }) => {
 		}
 	}
 
-	if (isLoading) return null // TODO: add skeleton
+	if (isLoading)
+		return (
+			<>
+				<ArtistCardAdminSkeleton />
+				<Hr />
+				<ArtistCardAdminSkeleton />
+				<Hr />
+				<ArtistCardAdminSkeleton />
+				<Hr />
+				<ArtistCardAdminSkeleton />
+				<Hr />
+				<ArtistCardAdminSkeleton />
+			</>
+		)
 
 	if (errorMessage) return <ErrorMessage>{errorMessage}</ErrorMessage>
 

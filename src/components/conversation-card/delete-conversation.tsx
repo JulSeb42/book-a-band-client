@@ -10,12 +10,12 @@ import {
 	toast,
 } from "@julseb-lib/react"
 import { conversationService } from "api"
-import type { Conversation, User } from "types"
+import type { User } from "types"
 
 export const DeleteConversation: FC<IDeleteConversation> = ({
 	user,
 	conversationId,
-	setConversations,
+	refetch,
 }) => {
 	const [isOpen, setIsOpen] = useState(false)
 
@@ -24,9 +24,7 @@ export const DeleteConversation: FC<IDeleteConversation> = ({
 			.deleteConversation(conversationId)
 			.then(res => {
 				toast.success(res.data.message)
-				setConversations(prev =>
-					prev.filter(c => c._id !== res.data._id),
-				)
+				refetch()
 			})
 			.catch(err => {
 				toast.error("An error occurred, check console")
@@ -73,5 +71,5 @@ export const DeleteConversation: FC<IDeleteConversation> = ({
 interface IDeleteConversation {
 	user: User
 	conversationId: string
-	setConversations: DispatchState<Array<Conversation>>
+	refetch: () => void
 }
