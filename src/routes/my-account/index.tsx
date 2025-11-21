@@ -8,6 +8,7 @@ import {
 	UserHeader,
 	SearchConversations,
 	UserConversations,
+	NotApproved,
 } from "./-my-account-page"
 
 export type ReadFilter = "All" | "Unread" | "Read"
@@ -28,6 +29,8 @@ const MyAccount: FC = () => {
 
 			<Main className="p-0">
 				<UserHeader />
+
+				<NotApproved />
 
 				<SearchConversations
 					search={search}

@@ -38,7 +38,6 @@ export default [
 			"@typescript-eslint/no-non-null-asserted-optional-chain": "off",
 			"@typescript-eslint/consistent-indexed-object-style": "off",
 			"@typescript-eslint/no-inferrable-types": "off",
-
 			"react/function-component-definition": [
 				"warn",
 				{
