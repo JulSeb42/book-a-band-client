@@ -70,12 +70,16 @@ const EditAccount: FC = () => {
 			</Main>
 
 			<Aside className="flex flex-col gap-2 p-0">
-				<Text tag="h3">Available dates</Text>
+				{user?.role === "artist" && (
+					<>
+						<Text tag="h3">Available dates</Text>
 
-				<Availabilities
-					available={available}
-					setAvailable={setAvailable}
-				/>
+						<Availabilities
+							available={available}
+							setAvailable={setAvailable}
+						/>
+					</>
+				)}
 			</Aside>
 		</Page>
 	)

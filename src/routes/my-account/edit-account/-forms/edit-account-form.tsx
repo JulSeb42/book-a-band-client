@@ -159,6 +159,7 @@ export const EditAccountForm: FC<IEditAccountForm> = ({
 				onSubmit={handleSubmit}
 				isLoading={isLoading}
 				id="edit-account-form"
+				className="max-w-100"
 			>
 				<Input
 					id="fullName"
